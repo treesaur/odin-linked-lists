@@ -19,3 +19,21 @@ p test.to_s
 p test.size
 test.prepend("test6")
 p test.to_s
+puts test.at(1)
+p test.pop
+p test.to_s
+p test.pop
+p test.to_s
+p test.contains?("test5")
+p test.contains?("test4")
+p test.find("test5")
+p test.find("hello")
+p test.insert_at("test0", 1)
+p test.to_s
+p test.insert_at("test25", 6)
+p test.remove_at(1)
+p test.to_s
+p test.remove_at(0)
+p test.to_s
+p test.remove_at(2)
+p test.to_s

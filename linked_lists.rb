@@ -11,7 +11,7 @@ class LinkedLists
     if @head.nil?
       @head = Node.new(value)
     else
-      tail.next_node = Node.new(value)
+      self.tail.next_node = Node.new(value)
     end
   end
 
@@ -45,21 +45,53 @@ class LinkedLists
     tail_node
   end
 
-  # def at(index)
+  def at(index, get_node = false)
+    count = 0
+    current_node = @head
+    until count == index
+      current_node = current_node.next_node
+      count += 1
+    end
 
-  # end
+    return current_node if get_node
+    current_node.value
+  end
 
-  # def pop
+  def pop
+    popped_node = self.tail
+    current_node = @head
+    idx = 0
+    until idx == self.size - 2
+      current_node = current_node.next_node
+      idx += 1  
+    end
 
-  # end
+    current_node.next_node = nil
+    popped_node.value
+  end
 
-  # def contains?(value)
+  def contains?(value)
+    current_node = @head
+    count = 0
+    while current_node.next_node
+      return true if current_node.value == value
+      current_node = current_node.next_node
+      count += 1
+    end
 
-  # end
+    false
+  end
 
-  # def find(value)
+  def find(value)
+    current_node = @head
 
-  # end
+    (0...self.size).each do |idx|
+      return idx if current_node.value == value
+      current_node = current_node.next_node
+    end
+
+    nil
+  end
 
   def to_s
     str = ""
@@ -70,5 +102,37 @@ class LinkedLists
     end
 
     str += " ( #{tail.value} ) -> nil"
+  end
+
+  # ex cred
+
+  def insert_at(value, index)
+    return "Index non-existent" if index > self.size - 1
+    before_insert_node = self.at(index - 1, true)
+    after_insert_node = self.at(index, true)
+
+    before_insert_node.next_node = Node.new(value, after_insert_node)
+    true
+  end
+
+  def remove_at(index)
+    return "Index non-existent" if index > self.size - 1
+    
+    if index == 0 # for removing head node
+      new_head_node = self.at(1, true)
+      @head = new_head_node
+      return true
+    else
+      previous_remove_at_node = self.at(index - 1, true)
+      if index == self.size - 1 # for removing tail node
+        previous_remove_at_node.next_node = nil
+        return true
+      else
+        next_remove_at_node = self.at(index + 1, true)
+      end
+    end
+
+    previous_remove_at_node.next_node = next_remove_at_node
+    true
   end
 end
